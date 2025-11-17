@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cadastrar Pizza - Don Python</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body { font-family: ui-serif, Georgia, Cambria, "Times New Roman", Times, serif; }
+        .btn-premium {
+            background-color: #A37A3D; /* Dourado/Âmbar Escuro */
+            color: #FFFFFF;
+            transition: all 0.2s;
+        }
+        .btn-premium:hover {
+            background-color: #8C6A34; 
+        }
+    </style>
+</head>
+<body class="bg-stone-100 min-h-screen flex flex-col antialiased">
+
+    <header class="bg-stone-900 text-white shadow-xl">
+        <div class="max-w-6xl mx-auto px-4 py-4 flex justify-between items-center">
+            <h1 class="text-3xl font-bold tracking-wider text-amber-500">Don Python</h1>
+            <a href="/" class="btn-premium font-semibold px-5 py-2 rounded-full shadow-lg">
+                Voltar ao Cardápio
+            </a>
+        </div>
+    </header>
+
+    <main class="flex-grow flex flex-col justify-center items-center py-16">
+        <div class="bg-white shadow-2xl rounded-2xl w-full max-w-md p-10 border-t-4 border-amber-600">
+            
+            <h2 class="text-3xl font-bold text-center text-stone-900 mb-8">Cadastrar Nova Pizza</h2>
+
+            <form action="/cadastro" method="post" class="space-y-6">
+                <div>
+                    <label for="nome" class="block text-stone-700 font-medium mb-2">Nome da Pizza</label>
+                    <input type="text" id="nome" name="nome" required
+                        class="w-full border border-stone-300 rounded-lg px-4 py-3 focus:ring-amber-600 focus:border-amber-600 focus:outline-none">
+                </div>
+
+                <div>
+                    <label for="ingredientes" class="block text-stone-700 font-medium mb-2">Ingredientes</label>
+                    <textarea id="ingredientes" name="ingredientes" rows="3" required
+                        class="w-full border border-stone-300 rounded-lg px-4 py-3 focus:ring-amber-600 focus:border-amber-600 focus:outline-none"></textarea>
+                </div>
+
+                <div>
+                    <label for="preco" class="block text-stone-700 font-medium mb-2">Preço (R$)</label>
+                    <input type="number" step="0.01" id="preco" name="preco" required
+                        class="w-full border border-stone-300 rounded-lg px-4 py-3 focus:ring-amber-600 focus:border-amber-600 focus:outline-none">
+                </div>
+
+                <div class="pt-4 text-center">
+                    <button type="submit"
+                        class="w-full btn-premium px-6 py-3 rounded-lg hover:bg-amber-700 transition font-bold shadow-lg">Cadastrar Nova Pizza</button>
+                </div>
+            </form>
+        </div>
+    </main>
+
+    <footer class="bg-stone-900 text-stone-400 text-center py-6 mt-16">
+        <p class="text-lg font-serif">Pizzaria Don Python. Tradição e Sabor.</p>
+        <p class="text-sm mt-1">© 2025. Todos os direitos reservados.</p>
+    </footer>
+
+</body>
+</html>
+

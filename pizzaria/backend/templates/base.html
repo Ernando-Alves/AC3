@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{% block title %}Pizzaria - Sistema{% endblock %}</title>
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}" />
+  </head>
+  <body>
+    <header class="site-header">
+      <div class="container header-inner">
+        <div class="logo">
+          <img src="{{ url_for('static', filename='assets/logo.png') }}" alt="Logo" onerror="this.style.display='none'"/>
+          <h1>Pizzaria</h1>
+        </div>
+        <nav class="nav">
+          <a href="{{ url_for('main.index') }}">Cardápio</a>
+          <a href="{{ url_for('main.cadastro') }}" class="btn btn-primary">Cadastrar Pizza</a>
+        </nav>
+      </div>
+    </header>
+
+    <main class="container">
+      {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+          <div class="flash-area">
+            {% for category, msg in messages %}
+              <div class="alert alert-{{ category }}">{{ msg }}</div>
+            {% endfor %}
+          </div>
+        {% endif %}
+      {% endwith %}
+
+      {% block content %}{% endblock %}
+    </main>
+
+    <footer class="site-footer">
+      <div class="container">
+        <p>© {{ config.SITE_NAME if config and config.SITE_NAME else "Pizzaria" }} — Projeto de demonstração</p>
+      </div>
+    </footer>
+  </body>
+</html>

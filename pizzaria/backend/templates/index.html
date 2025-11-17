@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pizzaria Don Python | Cardápio Clássico 🍕</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body { font-family: ui-serif, Georgia, Cambria, "Times New Roman", Times, serif; }
+        .btn-premium {
+            background-color: #A37A3D; /* Dourado/Âmbar Escuro */
+            color: #FFFFFF;
+            transition: all 0.2s;
+        }
+        .btn-premium:hover {
+            background-color: #8C6A34; 
+        }
+        .card-icon {
+            color: #A37A3D; /* Ícone na cor de destaque */
+        }
+    </style>
+</head>
+<body class="bg-stone-100 min-h-screen flex flex-col antialiased">
+
+    <header class="bg-stone-900 text-white shadow-xl sticky top-0 z-50">
+        <div class="max-w-6xl mx-auto px-4 py-4 flex justify-between items-center">
+            
+            <h1 class="text-3xl font-bold tracking-wider text-amber-500">Don Python</h1>
+            
+            <nav class="hidden md:flex space-x-8 text-lg">
+                <a href="/" class="hover:text-amber-500 transition duration-200">Cardápio</a>
+                <a href="#sobre" class="hover:text-amber-500 transition duration-200">Sobre Nós</a>
+                <a href="#contato" class="hover:text-amber-500 transition duration-200">Contato</a>
+            </nav>
+
+            <a href="/cadastro" class="btn-premium font-semibold px-5 py-2 rounded-full shadow-lg">
+                Cadastrar Pizza
+            </a>
+        </div>
+    </header>
+
+    <main class="flex-grow max-w-6xl mx-auto px-4 py-12 w-full">
+        <h2 class="text-4xl font-bold text-stone-800 mb-8 text-center border-b-2 border-amber-600 pb-3">
+            Nosso Cardápio Clássico
+        </h2>
+
+        {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            <div class="mb-6 space-y-2 w-full max-w-xl mx-auto">
+                {% for category, msg in messages %}
+                    <div class="p-4 rounded-lg text-white font-medium 
+                        {% if category == 'success' %}bg-green-700
+                        {% elif category == 'danger' %}bg-red-700
+                        {% else %}bg-gray-700{% endif %} shadow-md">
+                        {{ msg }}
+                    </div>
+                {% endfor %}
+            </div>
+        {% endif %}
+        {% endwith %}
+
+        <form action="/" method="GET" class="mb-10 w-full max-w-xl mx-auto">
+            <div class="flex bg-white shadow-xl rounded-full overflow-hidden border border-amber-600">
+                <input type="text" name="busca" placeholder="Buscar pizza por nome..." 
+                       value="{{ termo if termo else '' }}" 
+                       class="flex-grow border-0 px-6 py-3 text-stone-700 focus:ring-amber-600 focus:border-amber-600 focus:outline-none">
+                <button type="submit" class="bg-amber-600 text-white px-6 py-3 hover:bg-amber-700 transition flex items-center justify-center">
+                    🔍
+                </button>
+            </div>
+            
+            {% if termo %}
+            <p class="text-center text-sm mt-3 text-stone-600">
+                Exibindo resultados para: **<span class="font-semibold text-amber-700">{{ termo }}</span>** | 
+                <a href="/" class="text-stone-600 hover:text-stone-800 underline">Limpar busca</a>
+            </p>
+            {% endif %}
+        </form>
+
+        {% if pizzas %}
+        <div class="grid lg:grid-cols-3 md:grid-cols-2 grid-cols-1 gap-8">
+            {% for pizza in pizzas %}
+            <div class="bg-white shadow-2xl rounded-xl overflow-hidden hover:shadow-3xl transform hover:-translate-y-1 transition duration-300 border-t-4 border-amber-600">
+                <div class="bg-stone-100 h-32 flex items-center justify-center text-6xl card-icon">
+                    <span class="text-amber-600">★</span>
+                </div>
+                <div class="p-6 text-center">
+                    <h3 class="text-2xl font-bold text-stone-900 mb-2 tracking-wide">{{ pizza.nome }}</h3>
+                    <p class="text-stone-600 mb-4 text-sm h-10 overflow-hidden line-clamp-2">{{ pizza.ingredientes }}</p>
+                    
+                    <span class="text-3xl font-extrabold text-amber-700 block mb-4">R$ {{ '%.2f'|format(pizza.preco) }}</span>
+                    
+                    <form action="/excluir/{{ pizza.id }}" method="post" onsubmit="return confirm('Tem certeza que deseja excluir a pizza {{ pizza.nome }}?')" class="mt-4">
+                        <button type="submit" class="w-full bg-stone-700 text-white px-4 py-2 rounded-md hover:bg-stone-800 transition font-semibold text-sm">Remover do Cardápio</button>
+                    </form>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        {% else %}
+        <p class="text-center text-stone-500 text-xl p-10 bg-white rounded-xl shadow-lg">
+            {% if termo %}
+            Nenhuma pizza encontrada para a busca: **{{ termo }}** 😭.
+            {% else %}
+            Nenhuma pizza cadastrada ainda. Use o botão "Cadastrar Pizza" para começar.
+            {% endif %}
+        </p>
+        {% endif %}
+    </main>
+
+    <footer class="bg-stone-900 text-stone-400 text-center py-6 mt-16">
+        <p class="text-lg font-serif">Pizzaria Don Python. Tradição e Sabor.</p>
+        <p class="text-sm mt-1">© 2025. Todos os direitos reservados.</p>
+    </footer>
+
+</body>
+</html>
